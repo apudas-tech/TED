@@ -1,0 +1,684 @@
+% =====================================================================
+%  IEEE Transactions on Electron Devices -- REVISED MANUSCRIPT
+%  TED-2026-08-2206-R  (resubmission)
+%
+%  MARKED copy  : \newcommand{\rev}[1]{{\color{blue}#1}}
+%  CLEAN copy   : \newcommand{\rev}[1]{#1}
+%  Compile: pdflatex -> bibtex -> pdflatex -> pdflatex
+% =====================================================================
+\documentclass[journal]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\sisetup{detect-all}
+
+%\newcommand{\rev}[1]{{\color{blue}#1}}     % MARKED
+\newcommand{\rev}[1]{#1}                    % CLEAN
+
+\newcommand{\hzo}{Hf$_{0.5}$Zr$_{0.5}$O$_2$}
+\newcommand{\Prem}{P_r}
+\newcommand{\Ec}{E_c}
+\newcommand{\Vc}{V_c}
+\newcommand{\Vth}{V_{\mathrm{th}}}
+\newcommand{\Vimp}{V_{\mathrm{imp}}}
+\newcommand{\Neq}{N_{\mathrm{eq}}}
+\newcommand{\dVh}{\Delta V_{\mathrm{hyst}}}
+\newcommand{\Cil}{C_{\mathrm{IL}}}
+\newcommand{\Cfe}{C_{\mathrm{HZO}}}
+\newcommand{\Cacc}{C_{\mathrm{acc}}}
+\newcommand{\Rs}{R_s}
+\newcommand{\ucm}{\micro\coulomb\per\centi\meter\squared}
+\newcommand{\uFcm}{\micro\farad\per\centi\meter\squared}
+\newcommand{\MVcm}{\mega\volt\per\centi\meter}
+\newcommand{\figph}[1]{\fbox{\parbox[c][3cm][c]{0.95\linewidth}
+  {\centering\ttfamily\detokenize{#1}\\[2pt]\rmfamily\itshape not found}}}
+\newcommand{\figmaybe}[2]{\IfFileExists{#1}{\includegraphics[width=#2]{#1}}{\figph{#1}}}
+
+\begin{document}
+
+\title{\rev{Sign Reversal of the DC-Sweep Capacitance--Voltage Hysteresis
+Window in \hzo{} Ferroelectric Transistors}}
+
+\author{Apu~Das, Agniva~Paul, Debraj~Barman, Zhao-Feng~Lou,
+        Yannick~Raffel, Min-Hung~Lee, and~Sourav~De
+\thanks{This work was partly funded by the National Science and Technology
+Council (NSTC), Taiwan, under grants 115-2221-E-007-144, by the Taiwan
+Semiconductor Research Institute (TSRI) grant JDP114-Y1-002, and by
+PSMC-115A0330.}
+\thanks{Apu Das, Agniva Paul, Debraj Barman, and Sourav De are with the
+College of Semiconductor Research, National Tsing Hua University, Hsinchu
+30044, Taiwan (e-mail: apu.das@gapp.nthu.edu.tw; sourav.de@mx.nthu.edu.tw).}
+\thanks{Zhao-Feng Lou and Min-Hung Lee are with National Taiwan University,
+Taipei 10617, Taiwan. Yannick Raffel is with the Center Nanoelectronic
+Technologies, Fraunhofer IPMS, Dresden 01109, Germany.}}
+
+\markboth{IEEE Transactions on Electron Devices}%
+{Das \MakeLowercase{\textit{et al.}}: Sign Reversal of the DC-Sweep C--V Hysteresis Window}
+\maketitle
+
+% =====================================================================
+\begin{abstract}
+\rev{Memory-window collapse in HfO$_2$ ferroelectric transistors is
+commonly attributed to ferroelectric fatigue. We show that the DC-sweep
+$C$--$V$ hysteresis window of TaN/\hzo{}(\SI{10}{\nano\meter})/
+SiO$_2$(\SI{0.85}{\nano\meter})/p-Si transistors does not merely close
+but \emph{reverses sign}, becoming clockwise beyond
+$5\times10^2$--$2\times10^3$ cycles. The reversal is reproduced on five
+independent devices, is unchanged when the measurement integration time
+is increased ten-fold, and is present at every frequency from
+\SI{10}{\kilo\hertz} to \SI{1}{\mega\hertz} and every sweep amplitude
+from \SI{\pm1.5}{\volt} to \SI{\pm3}{\volt}. Transfer characteristics
+confirm it: $\Delta\Vth$ falls from \SI{+0.581}{\volt} to
+\SI{-0.015}{\volt} at $10^4$ cycles, independently of the extraction
+criterion. Over the same range the remanent polarization
+\emph{increases}, rising 45\% by $10^2$ cycles and remaining above its
+pristine value at $10^4$. The window efficiency consequently falls from
+$\sim$16\% to $-4$\%. Interfacial charge first compensates, then
+over-compensates, the polarization field at the channel.}
+\end{abstract}
+
+\begin{IEEEkeywords}
+Ferroelectric field-effect transistor, hafnium oxide, endurance,
+hysteresis window, charge trapping, capacitance--voltage, interfacial
+layer, PUND.
+\end{IEEEkeywords}
+
+% =====================================================================
+\section{Introduction}
+\IEEEPARstart{F}{erroelectricity} in doped HfO$_2$ \cite{Fe1,Fe2} made a
+CMOS-compatible ferroelectric field-effect transistor (FeFET) practical,
+and integrated FeFET technologies now exist at the \SI{28}{\nano\meter}
+node and below \cite{Khan2020,QLC_FeNAND}. Endurance remains the
+principal obstacle: the memory window typically collapses between $10^4$
+and $10^5$ write cycles \cite{Mulaosmanovic_2021,HKG_FeFET,HfO_SCM},
+and the gap persists across silicon- and zirconium-doped stacks alike
+\cite{endurance1,Device_life}.
+
+The default explanation is ferroelectric fatigue \cite{fatigue}. An
+alternative attributes the collapse to charge injected into the
+ferroelectric/interfacial-layer region, which screens the polarization
+from the channel without destroying it
+\cite{Ref_DD_1,Charge_Trap_endurance,Toprasertpong,passlack}.
+\rev{Charge trapping, trap generation and interfacial-layer effects are
+established features of FeFET operation rather than mechanisms
+identified here \cite{Tasneem,Trapping_dynamics,Defect_dynamics}.} The
+two mechanisms imply opposite remedies --- ferroelectric materials
+engineering \cite{Stability} versus interface engineering
+\cite{endurance3,endurance4,AgnivaTSA} --- so distinguishing them
+matters. Reported evidence supports both, including oxygen-vacancy
+redistribution during cycling \cite{Oxygen_Vac,ref_1_OV,Ref_2OV}.
+
+\rev{Two of our own recent studies bear directly on this work and we
+state the relationship explicitly. In \cite{ACSAMI} we showed that
+ferroelectric polarization survives after the FeFET memory window
+collapses. In \cite{ACSAELM} we extracted an apparent channel-coupled
+charge density from the threshold-voltage shift, defined a
+polarization-to-channel coupling factor by comparison with the switching
+charge, and reported its decrease from 3.5\% to 0.9\% at $10^4$ cycles.
+Both establish that the coupling between polarization and channel
+degrades while polarization persists; we do not claim that observation
+as new. A companion preprint reports the stability of the gate-stack
+polarization response in degraded devices \cite{preprint}.}
+
+\rev{Three findings in the present work are not contained in those
+studies. First, the hysteresis window does not merely approach zero --- it
+becomes \emph{negative}. A coupling factor is non-negative by
+construction, so the regime in which interfacial charge
+\emph{over-compensates} rather than merely screens the polarization
+field cannot be expressed in that framework. Beyond the crossing, a
+positive gate sweep leaves the transistor harder to turn on, the
+opposite of its pristine behavior. Second, the reversal is established
+on five independent devices, across three decades of measurement
+frequency, four sweep amplitudes and a ten-fold change in integration
+time. Third, it is resolved from the gate-stack $C$--$V$ alone, and
+independently confirmed by transfer characteristics.}
+
+% =====================================================================
+\section{Device Fabrication and Measurement}
+
+\subsection{Gate Stack}
+The device is a p-Si channel FeFET with a
+TaN/\hzo{}(\SI{10}{\nano\meter})/SiO$_2$(\SI{0.85}{\nano\meter}) gate
+stack [Fig.~\ref{fig:stack}(a)]. The chemical SiO$_2$ interfacial layer
+(IL) is unavoidable on a silicon channel and is the region of interest.
+The insulator stack forms a series capacitive divider,
+\begin{equation}
+\frac{V_{\mathrm{HZO}}}{V_{\mathrm{ins}}} = \frac{\Cil}{\Cil+\Cfe},
+\label{eq:divider}
+\end{equation}
+where $V_{\mathrm{ins}}=V_{\mathrm{HZO}}+V_{\mathrm{IL}}$. With
+$\varepsilon_{\mathrm{HZO}}=30$ and $\varepsilon_{\mathrm{IL}}=3.9$,
+$\Cfe=\SI{2.66}{\uFcm}$ and $\Cil=\SI{4.06}{\uFcm}$, giving 0.60.
+Because the semiconductor capacitance is in series and neglected in
+\eqref{eq:divider}, 0.60 is an upper bound.
+
+\rev{\subsection{Devices and Data Provenance}
+Five nominally identical devices from the same die and process are
+reported, denoted device-1 to device-3 and device-6, device-7. Device-1
+is the device of the original submission; the others were not previously
+measured. All were cycled under identical conditions.
+
+Two measurement types were performed on single devices and we state this
+explicitly. Polarization (PUND) was measured on one device of the die;
+because polarization behavior is uniform across devices of this process
+\cite{ACSAMI,ACSAELM}, the resulting $2\Prem(N)$ is used as a
+\emph{common reference} against which the window of every device is
+compared, rather than as a per-device quantity. Transfer characteristics
+were measured on a single device. Neither is presented as a
+device-to-device reproducibility result; that role is carried by the
+$C$--$V$ data on five devices.}
+
+\subsection{Polarization Measurement}
+Switching-current and $P$--$E$ measurements used triangular waveforms
+with a half-period of \SI{500}{\micro\second}. Polarization was
+evaluated by positive-up-negative-down (PUND) measurement:
+\begin{equation}
+Q_{\mathrm{sw}}^{+}=\int\!\left[I_P-I_U\right]dt,\quad
+Q_{\mathrm{sw}}^{-}=\int\!\left[I_N-I_D\right]dt,
+\label{eq:pund}
+\end{equation}
+where $P$, $N$ denote switching and $U$, $D$ nonswitching pulses, and
+\begin{equation}
+2\Prem=\frac{|Q_{\mathrm{sw}}^{+}|+|Q_{\mathrm{sw}}^{-}|}{2A}.
+\label{eq:2pr}
+\end{equation}
+Coercive voltages were taken from the $P$--$V$ zero crossings, and
+\begin{equation}
+\Vimp=\frac{\Vc^{+}+\Vc^{-}}{2},\qquad
+\Ec=\frac{|\Vc^{+}|+|\Vc^{-}|}{2d}.
+\label{eq:imprint}
+\end{equation}
+For the pristine device $\Vc=\SI{2.08}{\volt}$, which with
+\eqref{eq:divider} gives $\Ec\approx\SI{1.25}{\MVcm}$, consistent with
+reported values \cite{Ferro_switching,imprint3}.
+
+\subsection{Cycling, Capacitance and Transfer Measurement}
+Cycling used \SI{\pm5}{\volt}, \SI{50}{\micro\second} pulses. $C$--$V$
+was measured on a Keysight B1500A CMU in $C_p$--$R_p$ mode with a
+\SI{20}{\milli\volt} AC level. \rev{Devices 6 and 7 were characterized at
+seven frequencies (\SI{1}{\kilo\hertz}--\SI{1}{\mega\hertz}) and four
+sweep amplitudes (\SI{\pm1.5}{\volt}--\SI{\pm3}{\volt}) at each
+checkpoint; devices 2 and 3 at \SI{100}{\kilo\hertz} and
+\SI{\pm3}{\volt} with two integration settings.} Source, drain and body
+were tied so that the inversion branch is supplied with minority
+carriers.
+
+Two features of the capacitance measurement require explicit statement.
+The sweep begins at the negative rail and integrates for one power-line
+cycle per point, so a full sweep takes $\sim$\SI{1}{\second} --- four
+orders of magnitude slower than the write pulse. Consequently the pulsed
+state does not survive to mid-sweep, and $C$--$V$ curves acquired after
+program and after erase are indistinguishable. The reported quantity is
+therefore the \emph{DC-sweep hysteresis window}
+\begin{equation}
+\dVh = V_{\mathrm{fwd}} - V_{\mathrm{rev}}
+       \Big|_{C=C_{\min}+\frac{1}{2}(C_{\max}-C_{\min})}.
+\label{eq:window}
+\end{equation}
+\rev{It is not the retained state of a pulse-written bit, and no claim
+about stored information is made from it alone; the corresponding
+transistor quantity is measured separately in Section~III-E.} The sign
+convention is fixed throughout: $\dVh>0$ denotes a counter-clockwise
+loop (the ferroelectric sense); $\dVh<0$ a clockwise loop (the
+electron-trapping sense).
+
+\rev{Transfer characteristics were measured with an SPGU write
+(\SI{\pm5}{\volt}, \SI{50}{\micro\second}) and an SMU read
+($V_D=\SI{0.1}{\volt}$, $V_G$ swept $-1.5$ to \SI{+2.5}{\volt}).
+$\Vth$ was extracted at a constant current of \SI{1}{\micro\ampere}.
+Because the gate must be switched between the pulse and read
+configurations through a switching matrix, the read delay was
+\SI{60}{\second}, determined from measurement timestamps; all terminals
+were held at \SI{0}{\volt} during that interval and each read was
+preceded by a fresh write.}
+
+\rev{\subsection{Integration-Time Control}
+To test whether the reported hysteresis is affected by charge leaking
+during the ADC integration window, the cycling series was repeated on
+devices 2 and 3 with the integration coefficient increased from 1 to 10
+power-line cycles, i.e.\ \SI{16.7}{\milli\second} to
+\SI{167}{\milli\second} per point, all else unchanged.}
+
+\subsection{Series-Resistance Correction and Screening}
+A series resistance was extracted from the Nicollian--Brews
+strong-accumulation expression \cite{nicollian1982,schroder2006}
+\begin{equation}
+\Rs = \frac{G_{ma}}{G_{ma}^{2}+\omega^{2}C_{ma}^{2}},
+\label{eq:rs}
+\end{equation}
+and capacitances corrected using
+\begin{equation}
+C_c=\frac{(G^{2}+\omega^{2}C^{2})C}{a^{2}+\omega^{2}C^{2}},\quad
+a=G-(G^{2}+\omega^{2}C^{2})\Rs .
+\label{eq:corr}
+\end{equation}
+Sweeps with median loss tangent $D=1/\omega R_pC_p$ above the stated
+screen were excluded from window statistics.
+
+\subsection{Figures of Merit}
+An unscreened remanent polarization would produce a window
+$2\Prem/\Cil$. We define the window efficiency
+\begin{equation}
+\eta = \frac{\dVh}{2\Prem/\Cil},
+\label{eq:eta}
+\end{equation}
+\rev{using the common reference $2\Prem(N)$ of Section~II-B. Where a
+window deficit is attributed to interfacial charge, an \emph{equivalent}
+areal density follows from}
+\begin{equation}
+\rev{\Delta\Neq=\frac{\Cil\,\Delta V}{q}
+ \approx\Delta V\times\SI{2.5e13}{\per\centi\meter\squared\per\volt}.}
+\label{eq:neq}
+\end{equation}
+\rev{Equation \eqref{eq:neq} assumes a sheet charge at the interfacial
+layer and an unchanged $\Cil$; it is an equivalent density inferred from
+a voltage shift, not a directly extracted interface-trap density, and is
+denoted $\Neq$ for that reason.}
+
+% =====================================================================
+\section{Results and Discussion}
+
+\subsection{The Ferroelectric Remains Intact to $10^4$ Cycles}
+Fig.~\ref{fig:fe} shows the polarization response. Field cycling
+produces a pronounced wake-up, consistent with oxygen-vacancy
+redistribution and domain-wall de-pinning
+\cite{cho2024,Trapping_dynamic2}: $2\Prem$ rises from \SI{20.2}{\ucm}
+pristine to \SI{29.2}{\ucm} at $10^2$ cycles, a 45\% increase, and the
+positive switching peak nearly doubles. Both remain at or above their
+pristine values through $10^4$. $\Vc$ is constant to within 4\% at every
+verified checkpoint through $10^4$ (Table~\ref{tab:switch}).
+
+\rev{Wake-up and charge trapping proceed simultaneously rather than
+sequentially: devices 2 and 3 show wake-up in the hysteresis window
+itself, rising from \SI{0.822}{\volt} to \SI{0.920}{\volt} and from
+\SI{0.804}{\volt} to \SI{0.968}{\volt} between pristine and one cycle
+before collapsing.}
+
+Degradation appears only at $10^5$ cycles, where $2\Prem$ falls to
+\SI{18.6}{\ucm}, the peaks broaden, and the non-switching current rises.
+$\Vc$ \emph{decreases} there, from \SI{2.08}{\volt} to
+\SI{1.94}{\volt} --- not a domain-pinning signature --- consistent with a
+leakier, electrically softened film \cite{Poole_Frankel_2}.
+\rev{We therefore do not claim that ferroelectric fatigue is absent. The
+ferroelectric does degrade, approximately two decades after the
+hysteresis window has collapsed, so loss of switchable polarization
+alone cannot account for the early collapse.}
+
+The imprint voltage drifts monotonically from \SI{-48}{\milli\volt}
+pristine to \SI{+9}{\milli\volt} at $10^4$, crossing zero between $10^3$
+and $10^4$, consistent with accumulation of a negative charge sheet on
+the channel side of the ferroelectric \cite{imprint3}.
+
+\subsection{The Window Collapses and Reverses Sign}
+Fig.~\ref{fig:cvfam} shows the $C$--$V$ evolution. The separation
+between forward and reverse branches narrows monotonically, closes near
+$10^3$ cycles, and reopens at $10^4$ with the branches exchanged.
+
+\rev{Fig.~\ref{fig:window}(a) shows $\dVh$ for five independent devices.
+All exhibit a counter-clockwise window when fresh and a clockwise window
+by $10^4$ cycles; interpolated zero crossings are 503, 871, 1117, 2136
+and 2422 cycles [Fig.~\ref{fig:window}(b)], a spread of a factor of
+five. At $10^4$ the window is $-0.15$ to $-\SI{0.28}{\volt}$ across all
+five (Table~\ref{tab:window}). Device-1 has a smaller pristine window
+(\SI{0.363}{\volt}) than the other four (0.79--\SI{0.82}{\volt}),
+reflecting die-to-die variation; the sign reversal is nonetheless common
+to all.}
+
+\rev{The window measured on the inversion flank --- the flank
+corresponding to $\Vth$ --- collapses and inverts on the same schedule
+[Fig.~\ref{fig:window}(c)], excluding an artifact of the extraction
+point, and is consistently larger than the flatband-flank window,
+indicating that the loop stretches rather than translating rigidly. A
+rigid shift, as produced by a fixed charge sheet, would displace both
+flanks equally. The reversal is also present at every sweep amplitude
+[Fig.~\ref{fig:window}(d)]; we note that the 50\%-of-range extraction
+criterion is not directly comparable between amplitudes and therefore
+report only the persistence of the sign change, not a trend in
+magnitude.}
+
+\rev{\subsection{The Reversal Is Not a Measurement Artifact}
+Three independent checks are shown in Fig.~\ref{fig:artifact}. First,
+$\dVh$ is suppressed at low frequency and saturates above
+$\sim$\SI{100}{\kilo\hertz}, following}
+\begin{equation}
+\dVh(f) = \Delta V_\infty - \frac{\delta V}{1+(f/f_c)^{2}},
+\label{eq:debye}
+\end{equation}
+\rev{with $f_c=\SI{25.6}{\kilo\hertz}$ (device-6) and
+\SI{16.8}{\kilo\hertz} (device-7) in the pristine state, both consistent
+with the 22--\SI{34}{\kilo\hertz} obtained on device-1
+[Fig.~\ref{fig:artifact}(b)]. Fits at $10^2$ cycles use only four points
+on a partly collapsed window and are shown as open symbols; we draw no
+conclusion from them. The reversal itself is present at all seven
+measurement frequencies from \SI{1}{\kilo\hertz} to \SI{1}{\mega\hertz}.
+
+Second, increasing the ADC integration ten-fold changes $\dVh$ by
+15--22\% but does not change its sign at any checkpoint through $10^5$
+on either device [Fig.~\ref{fig:artifact}(c)]. In the reversed regime
+the magnitude moves \emph{toward} zero at longer integration. Charge
+leaking during the integration window would produce the opposite
+dependence, since a longer integration would deepen an artifact-driven
+negative window. The observed trend is therefore inconsistent with that
+mechanism.
+
+Third, the reversal is present in uncorrected $C_p$ data: of the sweeps
+at $10^4$ cycles on device-1 for which the flank crossing is defined
+without any series correction, 25 of 27 are negative, spanning five
+frequencies, four amplitudes and both pulse states.}
+
+\subsection{Gate-Stack Controls}
+\rev{Fig.~\ref{fig:controls} shows the accumulation capacitance, loss
+spectra and conduction for devices 6 and 7. The validity of the
+correction of \eqref{eq:corr} is checkpoint-dependent, and we restrict
+the claim accordingly: a physically meaningful corrected capacitance is
+obtained through $10^3$ cycles on device-1 and through $10^2$ on
+device-2, while at $10^4$ cycles $\omega\Rs C\approx0.50$ and the
+correction is ill-conditioned. No corrected value is quoted there, and
+the claim of an unchanged capacitance is not extended to the checkpoint
+at which the sign reversal occurs.
+
+Within the valid range the result is nonetheless decisive. On device-2,
+over $N=1$ to $10^2$ cycles, $\Cacc=184.2\pm\SI{1.6}{\pico\farad}$
+($\pm0.9$\%) with the correction below 1.9\% at every point and
+$D=0.12$--0.15, while $\dVh$ falls from \SI{0.920}{\volt} to
+\SI{0.331}{\volt} --- 64\% of the collapse. The stack capacitance is
+therefore constant to better than 1\%, on essentially uncorrected data,
+over the range in which the window loses most of its magnitude.}
+
+\subsection{Transistor-Level Confirmation}
+\rev{Fig.~\ref{fig:transistor} shows transfer characteristics measured
+after program and erase at each checkpoint. Defining
+$\Delta\Vth=\Vth(\text{erase})-\Vth(\text{program})$ so that the sign
+convention matches $\dVh$, the transistor window falls from
+\SI{+0.581}{\volt} pristine to \SI{+0.243}{\volt} at $10^2$,
+\SI{+0.108}{\volt} at $10^3$, and \SI{-0.015}{\volt} at $10^4$
+[Fig.~\ref{fig:transistor}(b)]. The reversal is independent of the
+extraction criterion, being present at 1, 3, 10, 30 and
+\SI{100}{\micro\ampere} [Fig.~\ref{fig:transistor}(c)]. Both threshold
+states converge and cross, falling from 0.29/\SI{0.87}{\volt} pristine
+to 0.083/\SI{0.067}{\volt} at $10^4$.
+
+The relation between $\dVh$ and the pulse-written threshold window,
+stated as an assumption in Section~II-D, is therefore supported by
+direct measurement: the two quantities collapse on the same schedule and
+change sign at the same cycle count [Fig.~\ref{fig:decouple}(c)]. We
+note that the two are measured on very different timescales ---
+\SI{60}{\second} for the transistor read against
+$\sim$\SI{17}{\milli\second} per point for $C$--$V$ --- so their
+agreement indicates that the responsible charge is stable over at least
+that range. The off-state current floor of
+$\sim$\SI{3e-7}{\ampere} in these devices prevents extraction of the
+subthreshold swing.}
+
+\subsection{Polarization and Window Are Decoupled}
+\rev{Fig.~\ref{fig:decouple} places the measurements together and
+constitutes the central result. Normalising each device's window to its
+own pristine value [Fig.~\ref{fig:decouple}(a)], all five collapse to
+between $-0.26$ and $-0.42$ of their initial magnitude at $10^4$ cycles,
+while the reference $2\Prem$ rises to 1.45 of its pristine value at
+$10^2$ and remains above unity at $10^4$.
+
+The window efficiency of \eqref{eq:eta}, evaluated against the common
+reference polarization, falls from 15.9--16.5\% pristine to $-3.2$ to
+$-4.2$\% at $10^4$ cycles for devices 2, 3, 6 and 7
+[Fig.~\ref{fig:decouple}(b), Table~\ref{tab:eta}]; device-1 follows the
+same trajectory from a lower starting value. The agreement among four
+independent devices at both ends of the range is closer than the
+device-to-device spread in the pristine window itself.}
+
+\subsection{Interpretation}
+\rev{At $10^4$ cycles the polarization is present and larger than
+pristine, and both the capacitance and transistor windows have reversed
+sign. Over the range where the series correction is valid, the
+gate-stack capacitance is unchanged to better than 1\% while most of the
+collapse occurs. These observations are consistent with charge
+accumulating within the channel-side gate stack: such charge can screen
+the polarization from the channel while leaving both the polarization
+and the series capacitance intact.} From \eqref{eq:neq}, the
+\SI{0.51}{\volt} swing in $\dVh$ on device-1 corresponds to
+$\Delta\Neq\approx\SI{1.3e13}{\per\centi\meter\squared}$, a density
+readily accommodated at an HfO$_2$/SiO$_2$/Si interface
+\cite{Ref_DD_1,Toprasertpong}, and comparable to trap densities
+extracted by charge pumping and low-frequency noise on nominally
+identical stacks \cite{Trapping_dynamics,Defect_dynamics}.
+
+The sign reversal further shows that this charge does not merely
+neutralize the polarization's influence. It exceeds it, and there is
+necessarily an intermediate cycle count at which the two contributions
+cancel exactly.
+
+\rev{The present measurements do not determine where the compensating
+charge resides. They do not distinguish charge in bulk HZO, at the
+HZO/SiO$_2$ interface, within SiO$_2$, or at the SiO$_2$/Si interface,
+and we describe it only as effective charge within the channel-side gate
+stack. Nor do we claim that the flank asymmetry, imprint drift and
+conduction increase share a single origin. The mechanism is presented as
+consistent with charge trapping rather than as an identification of the
+responsible traps; transmission electron microscopy with electron
+energy-loss spectroscopy, or charge pumping across the cycling range,
+would be required to localize and quantify it directly.}
+
+\rev{Three limitations remain. The five devices are from one die, and
+the zero-crossing cycle count varies by a factor of five among them.
+Polarization and transfer characteristics were each measured on a single
+device (Section~II-B), so the decoupling argument combines a
+five-device window measurement with single-device polarization and
+transistor references. And $\eta$ depends on the convention chosen for
+the ideal window in \eqref{eq:eta}; alternative denominators shift the
+absolute values but not the sign change or the trend.}
+
+% =====================================================================
+\section{Conclusion}
+\rev{The DC-sweep $C$--$V$ hysteresis window of an HfO$_2$ FeFET does
+not merely close with cycling: it reverses sign. The reversal is
+reproduced on five independent devices with zero crossings between
+$5\times10^2$ and $2\times10^3$ cycles, survives a ten-fold increase in
+measurement integration time, is present at all seven measurement
+frequencies and four sweep amplitudes, and is confirmed by transfer
+characteristics in which $\Delta\Vth$ changes sign at the same cycle
+count. Over the same range the remanent polarization stands above its
+pristine value, and where the lumped $C_p$--$R_p$ model is valid the
+gate-stack capacitance is constant to better than 1\% while 64\% of the
+collapse occurs. Loss of switchable polarization alone therefore cannot
+account for the early collapse of the hysteresis window in these
+devices, and interfacial charge that first compensates and then
+over-compensates the polarization field provides a consistent account.}
+
+\section*{Acknowledgment}
+The authors thank the Taiwan Semiconductor Research Institute and the
+Nano-Fabrication Facility, National Yang-Ming Chiao Tung University, and
+Prof.~Min-Hung Lee for the measurement facility at NTU.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+% =====================================================================
+\begin{figure}[!t]\centering
+\figmaybe{FIG1_stack.pdf}{\columnwidth}
+\caption{Device and measurement protocol. (a)~Gate stack and equivalent
+series divider, \eqref{eq:divider}; at most 60\% of the gate bias
+reaches the ferroelectric, and with $\Vc=\SI{2.08}{\volt}$ this gives
+$\Ec\approx\SI{1.25}{\MVcm}$. (b)~At each checkpoint the device is
+cycled with \SI{\pm5}{\volt}, \SI{50}{\micro\second} pulses, then
+characterized. The $C$--$V$ sweep starts at the negative rail and takes
+$\sim$\SI{17}{\milli\second} per point, four orders of magnitude slower
+than the write pulse; the reported window is DC-sweep hysteresis, not a
+pulse-written state.}
+\label{fig:stack}\end{figure}
+
+\begin{figure}[!t]\centering
+\figmaybe{FIG2_ferroelectric.pdf}{\columnwidth}
+\caption{Ferroelectric response versus cycling. (a)~$P$--$V$ loops and
+(b)~switching current. (c)~$2\Prem$ from \eqref{eq:2pr} and switching
+peaks; dotted line marks the pristine $2\Prem$. (d)~$\Vimp$ and $\Vc$
+from \eqref{eq:imprint}. Wake-up raises $2\Prem$ 45\% by $10^2$ cycles
+and it stays above pristine through $10^4$, with $\Vc$ constant to 4\%.
+At $10^5$, $\Vc$ decreases as the peaks broaden --- not a domain-pinning
+signature. \rev{Measured on a single device of the die; used as the
+common polarization reference (Section~II-B).} Open symbol at $10^3$:
+single unverified trace.}
+\label{fig:fe}\end{figure}
+
+\begin{figure}[!t]\centering
+\figmaybe{FIG3_CV_families.pdf}{\columnwidth}
+\caption{\rev{$C$--$V$ evolution of device-7 at \SI{500}{\kilo\hertz},
+\SI{\pm3}{\volt}. Solid: forward sweep; dashed: reverse. The
+forward--reverse separation narrows monotonically, closes near $10^3$
+cycles, and reopens at $10^4$ with the branches exchanged.}}
+\label{fig:cvfam}\end{figure}
+
+\begin{figure}[!t]\centering
+\figmaybe{FIG4_window.pdf}{\columnwidth}
+\caption{\rev{The window collapses and reverses sign. (a)~$\dVh$ versus
+cycling for five independent devices; shaded region marks clockwise
+loops. Device-1 (grey) has a smaller pristine window but the same
+trajectory. (b)~Interpolated zero crossings: 503, 871, 1117, 2136 and
+2422 cycles. (c)~Flatband and threshold flanks, devices 6 and 7; both
+invert on the same schedule. (d)~Window versus sweep amplitude at
+\SI{1}{\mega\hertz}; the reversal is present at every amplitude.}}
+\label{fig:window}\end{figure}
+
+\begin{figure}[!t]\centering
+\figmaybe{FIG5_artifact.pdf}{\columnwidth}
+\caption{\rev{The reversal is not a measurement artifact.
+(a)~Inverted-Debye dispersion, \eqref{eq:debye}, devices 6 and 7.
+(b)~Fitted $f_c$; filled symbols are fits with $\geq5$ points, open
+symbols the four-point fits at $10^2$ cycles which are not reliable.
+Grey band: device-1 range. (c)~PLC 1 versus PLC 10
+(\SI{16.7} versus \SI{167}{\milli\second} per point). The sign is
+unchanged at every checkpoint through $10^5$; magnitudes move toward
+zero at longer integration, opposite to the dependence expected from a
+leakage artifact.}}
+\label{fig:artifact}\end{figure}
+
+\begin{figure}[!t]\centering
+\figmaybe{FIG6_controls.pdf}{\columnwidth}
+\caption{\rev{Gate-stack controls, devices 6 and 7.
+(a)~Accumulation capacitance at \SI{500}{\kilo\hertz}. (b)~Loss spectra;
+dotted line marks the screening threshold. (c)~Accumulation conductance
+versus cycling.}}
+\label{fig:controls}\end{figure}
+
+\begin{figure}[!t]\centering
+\figmaybe{FIG7_decoupling.pdf}{\columnwidth}
+\caption{\rev{Polarization and window are decoupled. (a)~$\dVh$
+normalised to each device's own pristine value, five devices, with
+$2P_{r}/2P_{r,0}$ from the common reference measurement.
+(b)~Window efficiency \eqref{eq:eta} evaluated against that reference:
+15.9--16.5\% pristine falling to $-3.2$ to $-4.2$\% at $10^4$ for
+devices 2, 3, 6 and 7. (c)~Normalised $\Delta\Vth$ (transistor, single
+device, \SI{60}{\second} read delay) plotted against the normalised
+$\dVh$ of all five devices.}}
+\label{fig:decouple}\end{figure}
+
+\begin{figure}[!t]\centering
+\figmaybe{FIG8_transistor.pdf}{\columnwidth}
+\caption{\rev{Transistor-level confirmation, single device.
+(a)~Transfer characteristics after program and erase, pristine and
+$10^4$ cycles, \SI{60}{\second} read delay; dotted line marks the
+\SI{1}{\micro\ampere} extraction criterion. (b)~$\Vth$ of both states,
+which converge and cross. (c)~$\Delta\Vth$ at five current criteria; the
+sign reversal is criterion-independent. (d)~$\Delta\Vth$ and $\dVh$
+versus cycling.}}
+\label{fig:transistor}\end{figure}
+
+% =====================================================================
+\begin{table}[!t]
+\caption{\rev{DC-Sweep Hysteresis Window Across Five Devices}}
+\label{tab:window}\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+$N$ & dev-1 & dev-2 & dev-3 & dev-6 & dev-7\\
+\midrule
+pristine & $+0.363$ & $+0.822$ & $+0.804$ & $+0.791$ & $+0.803$\\
+$1$      & $+0.265$ & $+0.920$ & $+0.968$ & $+0.719$ & $+0.740$\\
+$10$     & $+0.221$ & $+0.806$ & ---      & $+0.606$ & $+0.672$\\
+$10^2$   & $+0.122$ & $+0.331$ & ---      & $+0.396$ & $+0.492$\\
+$10^3$   & $-0.052$ & $-0.021$ & $+0.129$ & $+0.010$ & $+0.172$\\
+$10^4$   & $-0.151$ & $-0.265$ & $-0.262$ & $-0.205$ & $-0.275$\\
+$10^5$   & ---      & $-0.115$ & $-0.105$ & ---      & $-0.116$\\
+\midrule
+zero cross.\ & 503 & 871 & 2136 & 1117 & 2422\\
+\bottomrule
+\end{tabular}\\[2pt]
+\parbox{\columnwidth}{\scriptsize All values in volts, from
+\eqref{eq:window}. Devices 1--3 at \SI{100}{\kilo\hertz}, devices 6--7
+at \SI{500}{\kilo\hertz}, all at \SI{\pm3}{\volt}. Entries omitted where
+the loss tangent exceeds the screening threshold.}
+\end{table}
+
+\begin{table}[!t]
+\caption{\rev{Window Efficiency $\eta$ (\%) Against the Common
+Polarization Reference}}
+\label{tab:eta}\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+$N$ & $2\Prem$ & dev-1 & dev-2 & dev-3 & dev-6 & dev-7\\
+    & (\si{\ucm}) & & & & &\\
+\midrule
+pristine & 20.2 & 7.3 & 16.5 & 16.2 & 15.9 & 16.1\\
+$1$      & 25.1 & 4.3 & 14.9 & 15.7 & 11.6 & 12.0\\
+$10$     & 27.7 & 3.2 & 11.8 & ---  & 8.9  & 9.9\\
+$10^2$   & 29.2 & 1.7 & 4.6  & ---  & 5.5  & 6.8\\
+$10^3$   & 22.1 & $-1.0$ & $-0.4$ & 2.4 & 0.2 & 3.2\\
+$10^4$   & 26.5 & $-2.3$ & $-4.1$ & $-4.0$ & $-3.2$ & $-4.2$\\
+$10^5$   & 18.6 & ---    & $-2.5$ & $-2.3$ & ---    & $-2.5$\\
+\bottomrule
+\end{tabular}\\[2pt]
+\parbox{\columnwidth}{\scriptsize $\eta$ from \eqref{eq:eta}. The
+$2\Prem$ column is the common reference measured on a single device of
+the die (Section~II-B) and is applied to all five devices; $\eta$
+therefore compares each device's window against a representative stack
+polarization rather than its own.}
+\end{table}
+
+\begin{table}[!t]
+\caption{Ferroelectric Switching Diagnostics}
+\label{tab:switch}\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+$N$ & $\Vc$ & $\Ec$ & $\Vimp$ & $I_{sw}^{+}$ & $I_{sw}^{-}$ & $I_{ns}$\\
+    & (V) & (\si{\MVcm}) & (mV) & (\si{\micro\ampere})
+    & (\si{\micro\ampere}) & (\si{\micro\ampere})\\
+\midrule
+pristine & 2.08 & 1.25 & $-48$ & 28.2 & $-32.4$ & 3.15\\
+$1$      & 2.07 & 1.24 & $-48$ & 45.5 & $-59.3$ & 1.46\\
+$10$     & 2.10 & 1.26 & $-28$ & 49.4 & $-64.1$ & 0.83\\
+$10^2$   & 2.16 & 1.30 & $-23$ & 51.3 & $-65.9$ & 0.62\\
+$10^3$   & 2.37 & 1.42 & $-12$ & 33.9 & $-40.7$ & 1.52\\
+$10^4$   & 2.07 & 1.24 & $+9$  & 54.0 & $-56.1$ & 1.20\\
+$10^5$   & 1.94 & 1.16 & $-35$ & 41.2 & $-38.6$ & 1.87\\
+\bottomrule
+\end{tabular}\\[2pt]
+\parbox{\columnwidth}{\scriptsize From \eqref{eq:imprint};
+$\Ec=0.60\,\Vc/t_{\mathrm{HZO}}$ using \eqref{eq:divider}. The $10^3$
+row derives from a single unverified trace and is excluded from the
+quoted $\Vc$ variation.}
+\end{table}
+
+\begin{table}[!t]
+\caption{\rev{Transistor Threshold Window, Single Device}}
+\label{tab:vth}\centering\footnotesize\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcccc}
+\toprule
+$N$ & $\Vth$(prog.) & $\Vth$(erase) & $\Delta\Vth$ & $I_{on}/I_{off}$\\
+    & (V) & (V) & (V) & \\
+\midrule
+pristine & 0.294 & 0.875 & $+0.581$ & 1053\\
+$1$      & 0.421 & 0.939 & $+0.518$ & 1050\\
+$10$     & 0.550 & 0.923 & $+0.373$ & 1063\\
+$10^2$   & 0.533 & 0.776 & $+0.243$ & 1025\\
+$10^3$   & 0.327 & 0.434 & $+0.108$ & 969\\
+$10^4$   & 0.083 & 0.067 & $-0.015$ & 538\\
+\bottomrule
+\end{tabular}\\[2pt]
+\parbox{\columnwidth}{\scriptsize $\Vth$ at a constant current of
+\SI{1}{\micro\ampere}; $\Delta\Vth=\Vth(\text{erase})-\Vth(\text{program})$
+so that the sign convention matches $\dVh$. Read delay \SI{60}{\second}.}
+\end{table}
+
+\end{document}
