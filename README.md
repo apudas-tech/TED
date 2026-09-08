@@ -19,3 +19,8 @@ This repository contains my TED paper draft.
 
 - Reviewer 2 question and sample response draft:  
   `/home/runner/work/TED/TED/REVIEWER_2_SAMPLE_RESPONSES.md`
+
+## Manuscript Figure
+
+- Final updated manuscript figure draft:  
+  `/home/runner/work/TED/TED/MANUSCRIPT_FIGURE_FINAL.md`
