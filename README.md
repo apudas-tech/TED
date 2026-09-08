@@ -14,3 +14,8 @@ This repository contains my TED paper draft.
 - [ ] Confirm figures/tables are correctly labeled and referenced
 - [ ] Apply final formatting requirements
 - [ ] Produce and review final submission copy
+
+## Reviewer Response Support
+
+- Reviewer 2 question and sample response draft:  
+  `/home/runner/work/TED/TED/REVIEWER_2_SAMPLE_RESPONSES.md`
